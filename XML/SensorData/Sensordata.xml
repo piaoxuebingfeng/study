@@ -1,0 +1,21 @@
+<?xml version ="1.0"?>
+<fields xmlns ="urn:xmpp:iot:sensordata">
+	<node nodeId="Sensor">
+		<timestamp value="2014-07-25T12:29:32Z">
+		<numeric value="19.2" unit="C" automaticReadout="true"
+		momentary="true" name="Temperature" />
+		<numeric value="48.5" unit="%" automaticReadout="true"
+		momentary="true" name="Light" />
+		<boolean value="true" automaticReadout="true"
+		 momentary="true" name="Motion" />
+		</timestamp>
+		<timestamp value="2014-07-25T04:00:00Z">
+		<numeric value="20.6" unit="C" automaticReadout="true"
+		name="Temperature" historicalDay="true" />
+		<numeric value="48.5" unit="%" automaticReadout="true"
+		name="Light" historicalDay="true" />
+		<boolean value="true" automaticReadout="true"name="Motion" 
+		historicalDay="true" />
+		</timestamp>
+	</node>
+</fields>
