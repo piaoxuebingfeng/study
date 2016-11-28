@@ -81,20 +81,23 @@ public class MainActivity extends Activity implements OnClickListener {
     public String color_S_G;
     public String color_S_B;
     //所有LED  编码
-    public String ceshiLEDON  = "L";
-    public String ceshiLEDOFF = "l";
-    public String LED1ON = "PFL11";
-    public String LED1OFF = "PFL10";
-    public String LED2ON = "PFL21";
-    public String LED2OFF = "PFL20";
-    public String LED3ON = "PFL31";
-    public String LED3OFF = "PFL30";
-    public String LED4ON = "PFL41";
-    public String LED4OFF = "PFL40";
-    public String LED5ON = "PFL51";
-    public String LED5OFF = "PFL50";
-    public String LED6ON = "PFL61";
-    public String LED6OFF = "PFL60";
+    public String ceshiLEDON  = "L\r\n";
+    public String ceshiLEDOFF = "l\r\n";
+    public String ceshiLightON = "M\r\n";
+    public String ceshiLightOFF ="m\r\n";
+    
+    public String LED1ON = "PFL11\r\n";
+    public String LED1OFF = "PFL10\r\n";
+    public String LED2ON = "PFL21\r\n";
+    public String LED2OFF = "PFL20\r\n";
+    public String LED3ON = "PFL31\r\n";
+    public String LED3OFF = "PFL30\r\n";
+    public String LED4ON = "PFL41\r\n";
+    public String LED4OFF = "PFL40\r\n";
+    public String LED5ON = "PFL51\r\n";
+    public String LED5OFF = "PFL50\r\n";
+    public String LED6ON = "PFL61\r\n";
+    public String LED6OFF = "PFL60\r\n";
     //电视机切换频道
     public String TV_Switch_on = "PSTr0";
     public String TV_Switch_up = "PSTr0";
@@ -175,7 +178,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	private ImageButton chazuo_img;
 	private ImageButton pindaojian_img;
 	private ImageButton pindaojia_img;
-	private TextView bulb1_txt;
+	private TextView bulb1_txt;//灯环开关
+	private TextView bulb2_txt;//光感开关
 	private int flag_bulb1 = 1;
 	private int flag_bulb2 = 1;
 	private int flag_bulb3 = 1;
@@ -284,7 +288,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		pindaojia_img=(ImageButton) findViewById(R.id.id_pindaojia_img);
 
 		bulb1_txt = (TextView) findViewById(R.id.id_bulb1_txt);
-		
+		bulb2_txt = (TextView) findViewById(R.id.id_bulb2_txt);
 		tvTextR = (TextView) findViewById(R.id.tv_text_R);
 		tvTextG = (TextView) findViewById(R.id.tv_text_G);
 		tvTextB = (TextView) findViewById(R.id.tv_text_B);
@@ -300,7 +304,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		findViewById(R.id.id_fengshan_img).startAnimation(anim);
 		findViewById(R.id.id_RGBLED_img).startAnimation(anim);
 		IPText= (EditText)findViewById(R.id.IPText);
-		IPText.setText("192.168.4.1:8080");
+		IPText.setText("192.168.31.179:8080");
 		startButton= (Button)findViewById(R.id.StartConnect);
 		
 		editMsgTextCilent= (EditText)findViewById(R.id.clientMessageText);	   
@@ -429,17 +433,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					// TODO: handle exception
 					Toast.makeText(context, "发送异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
 				}
-				try 
-				{				    	
-			    	mPrintWriterClient.print(ceshiLEDON);//发送给服务器
-			    	mPrintWriterClient.flush();
-				}
-				catch (Exception e) 
-				{
-					// TODO: handle exception
-					Toast.makeText(context, "发送异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
-				}
-				 bulb1_txt.setText("关闭");
+				 bulb1_txt.setText("关闭灯环");
 				bulb1_img.setImageResource(R.drawable.light_bulb_on);
 				break;
 			case 2:
@@ -454,17 +448,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					// TODO: handle exception
 					Toast.makeText(context, "发送异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
 				}
-				try 
-				{				    	
-			    	mPrintWriterClient.print(ceshiLEDOFF);//发送给服务器
-			    	mPrintWriterClient.flush();
-				}
-				catch (Exception e) 
-				{
-					// TODO: handle exception
-					Toast.makeText(context, "发送异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
-				}
-				 bulb1_txt.setText("打开");
+				 bulb1_txt.setText("打开灯环");
 				bulb1_img.setImageResource(R.drawable.light_bulb_off);
 				break;
 			}
@@ -475,7 +459,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				flag_bulb2 = 2;
 				try 
 				{				    	
-			    	mPrintWriterClient.print(LED1ON);//发送给服务器
+			    	mPrintWriterClient.print(ceshiLightON);//发送给服务器
 			    	mPrintWriterClient.flush();
 				}
 				catch (Exception e) 
@@ -483,13 +467,14 @@ public class MainActivity extends Activity implements OnClickListener {
 					// TODO: handle exception
 					Toast.makeText(context, "发送异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
 				}
+				 bulb2_txt.setText("关闭光感");
 				bulb2_img.setImageResource(R.drawable.light_bulb_on);
 				break;
 			case 2:
 				flag_bulb2 = 1;
 				try 
 				{				    	
-			    	mPrintWriterClient.print(LED1OFF);//发送给服务器
+			    	mPrintWriterClient.print(ceshiLightOFF);//发送给服务器
 			    	mPrintWriterClient.flush();
 				}
 				catch (Exception e) 
@@ -497,6 +482,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					// TODO: handle exception
 					Toast.makeText(context, "发送异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
 				}
+				bulb2_txt.setText("打开光感");
 				bulb2_img.setImageResource(R.drawable.light_bulb_off);
 				break;
 			}
@@ -829,6 +815,11 @@ public class MainActivity extends Activity implements OnClickListener {
 				String send_G = ceshiGRB.concat(G_bai);
 				String send_GR = send_G.concat(R_bai);
 				String seng_GRB = send_GR.concat(B_bai);
+				seng_GRB =seng_GRB.concat("\r\n");
+				//改变光线感应开关
+				flag_bulb2 = 1;
+				bulb2_txt.setText("打开光感");
+				bulb2_img.setImageResource(R.drawable.light_bulb_off);
 				try 
 				{				    	
 			    	mPrintWriterClient.print(seng_GRB);//发送给服务器

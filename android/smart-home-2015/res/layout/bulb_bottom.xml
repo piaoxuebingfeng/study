@@ -26,7 +26,7 @@
             />
         <TextView
             android:id="@+id/id_bulb1_txt"
-            android:text="灯1"
+            android:text="打开灯环"
             android:textColor="#ffffff"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
@@ -51,11 +51,12 @@
            android:scaleType="centerInside"
            android:clickable="false"
            android:layout_gravity="center"
-           android:src="@drawable/light_bulb_off"
+           android:src="@drawable/light_bulb_on"
            android:background="#00000000"
             />
         <TextView
-            android:text="灯2"
+            android:text="关闭光感"
+            android:id="@+id/id_bulb2_txt"
             android:textColor="#ffffff"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
