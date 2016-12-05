@@ -1,4 +1,6 @@
 package com.example.mycolorpick;
+import java.net.Socket;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,8 +27,15 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	
+	//定义网络连接
+	private String SERVER_HOST_IP = "192.168.1.179";
+	private int SERVER_HOST_PORT = 8080;
+	private Socket  mSocketClient = null;
+	
+	
 	private int mInitialColor;//初始颜色
     private OnColorChangedListener mListener;
+    
     //private TextView text_view = (TextView) findViewById(R.id.text_view);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,7 @@ public class MainActivity extends Activity {
         display.getMetrics(metrics);
         
         int height = metrics.heightPixels +40 ;
+        //int height = metrics.heightPixels ;
         int width = metrics.widthPixels ;
         final ColorPickerView  myView = new ColorPickerView(this, height, width);
      	
@@ -191,6 +201,8 @@ public class MainActivity extends Activity {
 	               		//getWindow().setBackgroundDrawableResource(interpCircleColor(mCircleColors, unit));
                 	}else if(downInRect && inRect) {//down在渐变方块内, 且move也在渐变方块内
                 		mCenterPaint.setColor(interpRectColor(mRectColors, x));
+                		
+                		
                 		this.setBackgroundColor(interpRectColor(mRectColors, x));
                 		//getWindow().setBackgroundDrawableResource(interpRectColor(mRectColors, x));
                 	}
