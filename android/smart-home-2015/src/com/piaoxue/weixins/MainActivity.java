@@ -208,7 +208,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	        
 	      
 	      
-		InitView();// 界面初始化
+
 		
         //获取窗口管理器
         //WindowManager windowManager = getWindowManager();
@@ -221,12 +221,12 @@ public class MainActivity extends Activity implements OnClickListener {
        // int height = metrics.heightPixels +40 ;
        // int width = metrics.widthPixels ;
 	    root = (LinearLayout) findViewById(R.id.Linear_mylayout);
-	    
+	    root.setBackgroundColor(0xffffff);
        final ColorPickerView  myView = new ColorPickerView(this, 800,600);
        root.addView(myView);
         
         //setContentView(myView);
-        
+		InitView();// 界面初始化
 		InitEvents();
 	}
 	
@@ -288,10 +288,10 @@ public class MainActivity extends Activity implements OnClickListener {
             mRectColors = new int[]{0xFF000000, mCenterPaint.getColor(), 0xFFFFFFFF};
             mRectPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mRectPaint.setStrokeWidth(5);
-            rectLeft = -r - mPaint.getStrokeWidth() * 0.5f;
-            rectTop = r + mPaint.getStrokeWidth() * 0.5f + 
-            mLinePaint.getStrokeMiter() * 0.5f + 15;
-            rectRight = r + mPaint.getStrokeWidth() * 0.5f;
+            rectLeft = -r - mPaint.getStrokeWidth() * 0.8f;
+            rectTop = r + mPaint.getStrokeWidth() * 0.8f + 
+            mLinePaint.getStrokeMiter() * 0.8f + 15;
+            rectRight = r + mPaint.getStrokeWidth() * 0.8f;
             rectBottom = rectTop + 50;
 		}
 
@@ -436,8 +436,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		    					Toast.makeText(context, "发送异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
 		    				}
 	    				}
-	    				root.setBackgroundColor(interpCircleColor(mCircleColors, unit));
-	               		this.setBackgroundColor(interpCircleColor(mCircleColors, unit));
+	    				//root.setBackgroundColor(interpCircleColor(mCircleColors, unit));
+	    				
+	               		//this.setBackgroundColor(interpCircleColor(mCircleColors, unit));
 	               		//getWindow().setBackgroundDrawableResource(interpCircleColor(mCircleColors, unit));
                 	}else if(downInRect && inRect) {//down在渐变方块内, 且move也在渐变方块内
                 		mCenterPaint.setColor(interpRectColor(mRectColors, x));
@@ -517,8 +518,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		    					Toast.makeText(context, "发送异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
 		    				}
 	    				}
-	    				root.setBackgroundColor(interpRectColor(mRectColors, x));
-                		this.setBackgroundColor(interpRectColor(mRectColors, x));
+	    				//root.setBackgroundColor(interpRectColor(mRectColors, x));
+	    				
+                		//this.setBackgroundColor(interpRectColor(mRectColors, x));
                 		//getWindow().setBackgroundDrawableResource(interpRectColor(mRectColors, x));
                 	}
                 	if((highlightCenter && inCenter) || (highlightCenterLittle && inCenter)) {//点击中心圆, 当前移动在中心圆
@@ -537,6 +539,80 @@ public class MainActivity extends Activity implements OnClickListener {
                 	if(highlightCenter && inCenter) {//点击在中心圆, 且当前启动在中心圆
                 		if(mListener != null) {
                 			mListener.colorChanged(mCenterPaint.getColor());
+                			
+                			int_color = mCenterPaint.getColor();
+
+    	    				int_color_R=((int_color&0x00FF0000)>>16);
+    	    				int_color_G=((int_color&0x0000FF00)>>8);
+    	    				int_color_B=(int_color&0x000000FF);
+    	    				tvTextR.setTextColor(int_color);
+    	    				tvTextG.setTextColor(int_color);
+    	    				tvTextB.setTextColor(int_color);
+    	    				//System.out.println(int_color);
+    	    				color_S_R=Integer.toString(int_color_R);
+    	    				color_S_G=Integer.toString(int_color_G);
+    	    				color_S_B=Integer.toString(int_color_B);
+    	    				tvTextR.setText(color_S_R);
+    	    				tvTextG.setText(color_S_G);
+    	    				tvTextB.setText(color_S_B);
+            				if((int_color_G>=0)&&(int_color_G<10))
+            				{
+            					G_bai=G_00.concat(color_S_G);
+            				}
+            				else if((int_color_G>=10)&&(int_color_G<100))
+            				{
+            					G_bai=G_0.concat(color_S_G);
+            				}
+            				else 
+            				{
+            					G_bai=color_S_G;
+            				} //Green
+            				
+            				
+            				if((int_color_R<10)&&(int_color_R>=0))
+            				{
+            					R_bai=R_00.concat(color_S_R);
+            				}
+            				else if((int_color_R>=10)&&(int_color_R<100))
+            				{
+            					R_bai=R_0.concat(color_S_R);
+            				}
+            				else 
+            				{
+            					R_bai=color_S_R;
+            				}//Red
+            				
+            				
+            				
+            				if((int_color_B<10)&&(int_color_B>=0))
+            				{
+            					B_bai=B_00.concat(color_S_B);
+            				}
+            				else if((int_color_B>=10)&&(int_color_B<100))
+            				{
+            					B_bai=B_0.concat(color_S_B);
+            				}
+            				else 
+            				{
+            					B_bai=color_S_B;
+            				}
+            				String send_G = ceshiGRB.concat(G_bai);
+            				String send_GR = send_G.concat(R_bai);
+            				String seng_GRB = send_GR.concat(B_bai);
+            				seng_GRB = seng_GRB.concat("\r\n");
+            				if(isConnecting)
+            				{
+        	    				try 
+        	    				{				    	
+        	    			    	mPrintWriterClient.print(seng_GRB);//发送给服务器
+        	    			    	mPrintWriterClient.flush();
+        	    				}
+        	    				catch (Exception e) 
+        	    				{
+        	    					// TODO: handle exception
+        	    					Toast.makeText(context, "发送异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        	    				}
+            				}
                 		}
                 	}
                 	if(downInCircle) {
@@ -551,65 +627,6 @@ public class MainActivity extends Activity implements OnClickListener {
                 	if(highlightCenterLittle) {
                 		highlightCenterLittle = false;
                 	}
-                	
-    				if((int_color_G>=0)&&(int_color_G<10))
-    				{
-    					G_bai=G_00.concat(color_S_G);
-    				}
-    				else if((int_color_G>=10)&&(int_color_G<100))
-    				{
-    					G_bai=G_0.concat(color_S_G);
-    				}
-    				else 
-    				{
-    					G_bai=color_S_G;
-    				} //Green
-    				
-    				
-    				if((int_color_R<10)&&(int_color_R>=0))
-    				{
-    					R_bai=R_00.concat(color_S_R);
-    				}
-    				else if((int_color_R>=10)&&(int_color_R<100))
-    				{
-    					R_bai=R_0.concat(color_S_R);
-    				}
-    				else 
-    				{
-    					R_bai=color_S_R;
-    				}//Red
-    				
-    				
-    				
-    				if((int_color_B<10)&&(int_color_B>=0))
-    				{
-    					B_bai=B_00.concat(color_S_B);
-    				}
-    				else if((int_color_B>=10)&&(int_color_B<100))
-    				{
-    					B_bai=B_0.concat(color_S_B);
-    				}
-    				else 
-    				{
-    					B_bai=color_S_B;
-    				}
-    				String send_G = ceshiGRB.concat(G_bai);
-    				String send_GR = send_G.concat(R_bai);
-    				String seng_GRB = send_GR.concat(B_bai);
-    				seng_GRB = seng_GRB.concat("\r\n");
-    				if(isConnecting)
-    				{
-	    				try 
-	    				{				    	
-	    			    	mPrintWriterClient.print(seng_GRB);//发送给服务器
-	    			    	mPrintWriterClient.flush();
-	    				}
-	    				catch (Exception e) 
-	    				{
-	    					// TODO: handle exception
-	    					Toast.makeText(context, "发送异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
-	    				}
-    				}
                 	invalidate();
                     break;
             }
