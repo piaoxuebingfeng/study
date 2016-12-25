@@ -15,6 +15,8 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -55,9 +57,13 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements OnClickListener {
 	Context context;
 	private final static int REQUEST_CONNECT_DEVICE = 1; // 宏定义查询设备句柄
-	private String SERVER_HOST_IP = "192.168.4.1";
-	private int SERVER_HOST_PORT = 8080;
-
+	
+	//private String SERVER_HOST_IP = "192.168.4.1";
+	//private int SERVER_HOST_PORT = 8080;
+	private String IP_PORT="192.168.31.140:8080";
+	//存储 IP 地址  
+	SharedPreferences preferences;
+	SharedPreferences.Editor editor;
 	private Socket socket;
 	private PrintStream output;
 	
@@ -178,6 +184,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private int flag_bulb4 = 1;
 
 	private LinearLayout root ;
+
 	public void toastText(String message) {
 		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 	}
@@ -190,9 +197,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		context = this;
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);// 将标题栏去掉
+
+
 		setContentView(R.layout.activity_main);
-		
-		
 		//这段代码看不懂
 		 StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()        
 	        .detectDiskReads()        
@@ -834,7 +841,13 @@ public class MainActivity extends Activity implements OnClickListener {
 		findViewById(R.id.id_fengshan_img).startAnimation(anim);
 		findViewById(R.id.id_RGBLED_img).startAnimation(anim);
 		IPText= (EditText)findViewById(R.id.IPText);
-		IPText.setText("192.168.31.179:8080");
+		
+		
+		preferences = getSharedPreferences("ipporttext", MODE_PRIVATE);
+		editor=preferences.edit();
+		
+		IP_PORT = preferences.getString("ipporttext", "192.168.31.140:8080");
+		IPText.setText(IP_PORT);
 		startButton= (Button)findViewById(R.id.StartConnect);
 		
 		editMsgTextCilent= (EditText)findViewById(R.id.clientMessageText);	   
@@ -891,7 +904,8 @@ public class MainActivity extends Activity implements OnClickListener {
 				isConnecting = true;
 				startButton.setText("停止连接");						
 				IPText.setEnabled(false);
-				
+				editor.putString("ipporttext", IPText.getText().toString());
+				editor.commit();
 				mThreadClient = new Thread(mRunnable);
 				mThreadClient.start();				
 			}
