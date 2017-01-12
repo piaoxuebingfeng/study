@@ -104,6 +104,12 @@ public class MainActivity extends Activity implements OnClickListener {
     public String ceshiLightON = "M\r\n";
     public String ceshiLightOFF ="m\r\n";
     
+    public String cheMoveOn     ="A\r\n";
+    public String cheMoveBack   ="B\r\n";
+    public String cheMoveLeft   ="C\r\n";
+    public String cheMoveRight  ="D\r\n";
+    public String cheStop       ="a\r\n";
+    
     public String LED1ON = "PFL11\r\n";
     public String LED1OFF = "PFL10\r\n";
     public String LED2ON = "PFL21\r\n";
@@ -923,7 +929,8 @@ public class MainActivity extends Activity implements OnClickListener {
 				else
 				{
 					try 
-					{				    	
+					{
+						msgText =msgText.concat("\r\n");
 				    	mPrintWriterClient.print(msgText);//发送给服务器
 				    	mPrintWriterClient.flush();
 					}
@@ -1013,7 +1020,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				flag_bulb3 = 2;
 				try 
 				{				    	
-			    	mPrintWriterClient.print(LED2ON);//发送给服务器
+			    	mPrintWriterClient.print(cheMoveLeft);//发送给服务器
 			    	mPrintWriterClient.flush();
 				}
 				catch (Exception e) 
@@ -1027,7 +1034,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				flag_bulb3 = 1;
 				try 
 				{				    	
-			    	mPrintWriterClient.print(LED2OFF);//发送给服务器
+			    	mPrintWriterClient.print(cheStop);//发送给服务器
 			    	mPrintWriterClient.flush();
 				}
 				catch (Exception e) 
@@ -1046,7 +1053,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				flag_bulb4 = 2;
 				try 
 				{				    	
-			    	mPrintWriterClient.print(LED3ON);//发送给服务器
+			    	mPrintWriterClient.print(cheMoveRight);//发送给服务器
 			    	mPrintWriterClient.flush();
 				}
 				catch (Exception e) 
@@ -1060,7 +1067,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				flag_bulb4 = 1;
 				try 
 				{				    	
-			    	mPrintWriterClient.print(LED3OFF);//发送给服务器
+			    	mPrintWriterClient.print(cheStop);//发送给服务器
 			    	mPrintWriterClient.flush();
 				}
 				catch (Exception e) 
